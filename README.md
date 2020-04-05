@@ -18,12 +18,11 @@ sudo apt-get -y install nvidia-driver-${NVIDIA_VERSION}
 Now you can install docker. Just follow these instructions:
 https://docs.docker.com/install/linux/docker-ce/ubuntu/
 
-Once installed you can either build TensorFlow from source against CUDA 10.0 or CUDA 10.1.
-I tried CUDA 10.2 but there's a bug (might be resolved when you read this). See: https://github.com/tensorflow/tensorflow/issues/34429
+Once installed you can either build TensorFlow from source against CUDA 10.0, CUDA 10.1 or CUDA 10.2.
 
-To compile TensorFlow 2.1 against CUDA 10.0, just run the following command:
+To compile TensorFlow 2.2 against CUDA 10.0, just run the following command:
 ```sh
-docker build -t tensorflow10.0 cuda10.0
+docker build -t tensorflow_2.2_cuda10.0 2.2/cuda10.0
 ```
 
 Depending on your machine, it can take several hours to compile. Check if there's any error once it's done.
@@ -32,7 +31,7 @@ You can now copy the .whl package from the docker container to your host to inst
 
 First start the container:
 ```sh
-docker run -it tensorflow10.0
+docker run -it tensorflow_2.2_cuda10.0
 ```
 
 Then look at the running containers:
@@ -40,11 +39,11 @@ Then look at the running containers:
 docker ps
 ```
 
-You should see one line (unless you have other containers running) with the name tensorflow10.0. The first row is the container ID. Remember it.
+You should see one line (unless you have other containers running) with the name tensorflow_2.2_cuda10.0. The first row is the container ID. Remember it.
 
 Now you can copy the .whl from the container to the host with this command (replace the container ID):
 ```sh
-docker cp <CONTAINER_ID>:/tensorflow/.pip_package/tensorflow-2.1.0-cp36-cp36m-linux_x86_64.whl ~/tensorflow-2.1.0-cp36-cp36m-linux_x86_64.whl
+docker cp <CONTAINER_ID>:/tensorflow/.pip_package/tensorflow-2.2.0-cp36-cp36m-linux_x86_64.whl ~/tensorflow-2.2.0-cp36-cp36m-linux_x86_64.whl
 ```
 
 Now you should be able to distribute this .whl or install it with pip:
@@ -54,7 +53,7 @@ pip install --upgrade ~/tensorflow-2.1.0-cp36-cp36m-linux_x86_64.whl
 
 To do the same thing against CUDA 10.1, just run this command instead:
 ```sh
-docker build -t tensorflow10.1 cuda10.1
+docker build -t tensorflow_2.2_cuda10.1 2.2/cuda10.1
 ```
 
 And follow the same steps as described before, just replacing "10.0" with "10.1".

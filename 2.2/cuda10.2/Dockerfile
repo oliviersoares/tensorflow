@@ -1,13 +1,13 @@
-FROM nvidia/cuda:10.1-runtime-ubuntu18.04
+FROM nvidia/cuda:10.2-runtime-ubuntu18.04
 
 # TensorFlow version
 ENV TF_VERSION_MAJOR=2
-ENV TF_VERSION_MINOR=1
+ENV TF_VERSION_MINOR=2
 ENV TF_VERSION=$TF_VERSION_MAJOR.$TF_VERSION_MINOR
 
 # CUDA version (needs to match the docker image specified above)
 ENV CUDA_VERSION_MAJOR=10
-ENV CUDA_VERSION_MINOR=1
+ENV CUDA_VERSION_MINOR=2
 ENV CUDA_VERSION=$CUDA_VERSION_MAJOR.$CUDA_VERSION_MINOR
 
 # CUDNN version
@@ -19,6 +19,11 @@ ENV CUDNN_VERSION=$CUDNN_VERSION_MAJOR.$CUDNN_VERSION_MINOR
 ENV PYTHON_VERSION_MAJOR=3
 ENV PYTHON_VERSION_MINOR=6
 ENV PYTHON_VERSION=$PYTHON_VERSION_MAJOR.$PYTHON_VERSION_MINOR
+
+# Bazel version
+ENV BAZEL_VERSION_MAJOR=2
+ENV BAZEL_VERSION_MINOR=0.0
+ENV BAZEL_VERSION=$BAZEL_VERSION_MAJOR.$BAZEL_VERSION_MINOR
 
 # Install all the packages needed
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -42,7 +47,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 && \
   ln -s /usr/bin/python$PYTHON_VERSION /usr/bin/python \
 && \
-  wget --no-verbose -O /usr/bin/bazel https://github.com/bazelbuild/bazel/releases/download/0.29.1/bazel-0.29.1-linux-x86_64 \
+  wget --no-verbose -O /usr/bin/bazel https://github.com/bazelbuild/bazel/releases/download/$BAZEL_VERSION/bazel-$BAZEL_VERSION-linux-x86_64 \
 && \
   chmod 555 /usr/bin/bazel \
 && \
